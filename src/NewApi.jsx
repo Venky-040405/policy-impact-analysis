@@ -350,32 +350,36 @@ const trustedSources = [
 "Reuters",
 "Bloomberg"
 ];
+
   const [NewsData,setNewsData] = useState([])
+  const [loaded,setLoaded] = useState(false)
+
   useEffect(()=>{
 
+  
   const newss = async ()=>{
-      /* const response =  await fetch("http://localhost:5000/newsapi", {
+      const response =  await fetch("http://localhost:5000/newsapi", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      });  */
+      }); 
   
-      
-  
-      /* const data = await response.json(); */
+      const data = await response.json();
       
       /* const datas = data.news.filter(elements => keywords.some( word =>
         elements.title?.toLowerCase().includes(word.toLowerCase())  || elements.description?.toLowerCase().includes(word.toLowerCase())
       ))  */
        
-      /* const datasort = data.news.filter(article =>
-  trustedSources.some(domain => article.source.includes(domain))) */
-      setNewsData(datass.news)
+      const datasort = data.news.filter(article =>
+  trustedSources.some(domain => article.source.includes(domain)))
+      setNewsData(datasort)
       if(NewsData){
         setValue(true)
+        setLoaded(true)
       }
   }
   newss()
-    })
+},[0])
+
 
 
 
@@ -391,14 +395,14 @@ const trustedSources = [
           <div className="news-card" key={index}>
 
             <img
-              src={article.image || "https://via.placeholder.com/400"}
+              src={article.imageUrl || "https://via.placeholder.com/400"}
               alt="news"
             />
 
             <div className="news-content">
               <h3>{article.title}</h3>
 
-              <p>{article.description}</p>
+              <p>{article.snippets}</p>
 
               <a href={article.link} target="_blank" rel="noreferrer">
                 Read Full Article →
